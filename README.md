@@ -1,4 +1,4 @@
-# Back Engineer - Technical Assessment
+# Backend Engineer - Technical Assessment
 Our tech teams are curious, driven, intelligent, pragmatic, collaborative and open-minded and you should be too.
 
 ## Testing Goals
