@@ -33,7 +33,7 @@ def details(keys: dict, resource: str, p_stop: bool = False):
 
         if p_stop == False:
             for k,v in requested_fields.items():
-                result.update(details({'keys':{'patientid':pid},'requested_fields': {resource: v}},k))
+                result.update(details({'keys':{'patientid':pid},'requested_fields': {k: v}},k,True))
 
     else:
         result[resource] = data
