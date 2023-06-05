@@ -4,6 +4,7 @@ services:
     image: postgres
     volumes:
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres_data:/var/lib/postgresql/data/
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_USER: postgres
@@ -15,6 +16,6 @@ services:
     volumes:
       - .:/code
     ports:
-      - "8000:8000"
-    depends_on:
-      - db
+      - '8000:8000'
+volumes:
+  postgres_data:
