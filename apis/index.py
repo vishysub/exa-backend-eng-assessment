@@ -57,7 +57,7 @@ def details(keys: dict, resource: str, p_stop: bool = False):
         return FormatResponse("BadRequest", "Missing/Improper request_fields field")
 
     if 'patientid' in input_data.keys():
-        query = f"select patientid,resource from {resource} where patientid in {tuple(i[0] for i in input_data['patientid'])};"
+        query = f"select patientid,resource from {resource} where patientid in {tuple(i[0] for i in input_data['patientid']) + ('None',)};"
     else:
         condition_fields = json.dumps(input_data)
         query = f"select patientid,resource from {resource} where resource @> '{condition_fields}';"
@@ -67,13 +67,19 @@ def details(keys: dict, resource: str, p_stop: bool = False):
     filtered_data = []
     if requested_fields.get(resource) is not None:
         for i in data:
-            filtered_data.append(dict(filter(lambda item: item[0] in requested_fields.get(resource), i[1].items())))
-        result[resource] = filtered_data
+            filter_data = dict(filter(lambda item: item[0] in requested_fields.get(resource), i[1].items()))
+            if result.get(i[0],{}).get(resource) is not None:
+                result[i[0]][resource].append(filter_data)
+            else:
+                result[i[0]] = {resource: [filter_data]}
+
         requested_fields.pop(resource)
 
         if p_stop == False:
             for res, fields in requested_fields.items():
-                result.update(details({'keys': {'patientid': pid}, 'requested_fields': {res: fields}}, res, True))
+                response = details({'keys': {'patientid': pid}, 'requested_fields': {res: fields}}, res, True)
+                for i in pid:
+                    result[i[0]].update(response[i[0]])
 
     else:
         result[resource] = data
