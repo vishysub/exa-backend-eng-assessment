@@ -2,3 +2,4 @@ fastapi
 uvicorn
 sqlalchemy ==1.4.42
 psycopg2
+python-dotenv
