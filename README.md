@@ -1,4 +1,4 @@
-# GETMED - WebApp
+# GetMed - WebApp
 
 
 ## Overview
