@@ -17,7 +17,9 @@
 * docker-compose up --build 
 * 
 ## Load the sample data
-python utils/load_resources
+* Command:python3 utils/load_resources.py
+
+* Once loaded the data would not be deleted even if the app is brought down.
 
 
 

@@ -13,12 +13,22 @@ app = FastAPI()
 
 
 def db_connect():
+    """
+    Creates connection to PostgresDB
+    Returns : sqlalchemy.connection
+    """
     engine = create_engine(f'postgresql+psycopg2://{os.getenv("POSTGRES_USER")}:{os.getenv("POSTGRES_PASSWORD")}@{os.getenv("POSTGRES_HOST")}:{os.getenv("POSTGRES_PORT")}/{os.getenv("POSTGRES_DB")}')
+    # engine = create_engine('postgresql+psycopg2://pos:password@db:5432/fhirb')
     connection = engine.connect()
     return connection
 
 
 def FormatResponse(status_code, message):
+    """
+    Params : status_code : int - httpstatus code
+             message : str - Message to be displayed to the user
+    Return JSONResponse for Exception cases
+    """
     return_res = {"message": message}
     response_context = {
         "BadRequest": {
@@ -38,6 +48,10 @@ def FormatResponse(status_code, message):
 
 @app.get("/{resource}")
 def details(keys: dict, resource: str, p_stop: bool = False):
+    """
+    keys -> Search key for the speicified resource
+    resource -> path param to specify resource
+    """
     result = {}
     requested_fields = keys.get('requested_fields')
     input_data = keys.get('keys')
@@ -76,4 +90,7 @@ def details(keys: dict, resource: str, p_stop: bool = False):
         result['Count'] = len(result.keys())
         return result
     except Exception as e:
-        return FormatResponse("InternalServerError", str(e)[:50])
+        return FormatResponse("InternalServerError", str(e)[:100])
+
+
+    
