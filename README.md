@@ -15,12 +15,11 @@
 
 ## Running the webapp  (Setup Postgres DB and Initialize WebApp)
 * docker-compose up --build 
-* 
 ## Load the sample data
 * Command:python3 utils/load_resources.py
 
 * Once loaded the data would not be deleted even if the app is brought down.
-
+* Without this data you may see errors
 
 
 #Usage :
